@@ -47,7 +47,7 @@ func prepareSpreadsheet(srv *sheets.Service, spreadsheetId string) {
 	}
 }
 
-func saveMessageToSheet(srv *sheets.Service, spreadsheetId string, message *tgbotapi.Message) {
+func saveMessageToSheet(srv *sheets.Service, spreadsheetId string, message *tgbotapi.Message, channelSheetName string) {
 	timestamp := time.Now().Format(time.RFC3339)
 	username := message.From.UserName
 	if username == "" {
@@ -70,7 +70,7 @@ func saveMessageToSheet(srv *sheets.Service, spreadsheetId string, message *tgbo
 
 	_, err := srv.Spreadsheets.Values.Append(
 		spreadsheetId,
-		"announcement!A1:E1",
+		fmt.Sprintf("%s!A1:E1", channelSheetName),
 		valueRange,
 	).ValueInputOption("USER_ENTERED").InsertDataOption("INSERT_ROWS").Do()
 
@@ -153,16 +153,19 @@ func main() {
 	// Process incoming messages
 	for update := range updates {
 		if update.Message != nil && strings.Contains(update.Message.Text, "#topic") {
-			saveMessageToSheet(srv, appCfg.SpreadsheetId, update.Message)
+			saveMessageToSheet(srv, appCfg.SpreadsheetId, update.Message, "announcement")
 
 			// Respond to the message
-			reply := tgbotapi.NewMessage(update.Message.Chat.ID, "You submitted!")
+			reply := tgbotapi.NewMessage(update.Message.Chat.ID, "Saved Topic!")
 			reply.ReplyToMessageID = appCfg.AnnouncementsTopicId
 			bot.Send(reply)
 		}
 
 		if update.Message != nil && strings.Contains(update.Message.Text, "#submit") {
-			reply := tgbotapi.NewMessage(update.Message.Chat.ID, "cam on ban da nop bai tap")
+			saveMessageToSheet(srv, appCfg.SpreadsheetId, update.Message, "submit")
+
+			// Respond to the message
+			reply := tgbotapi.NewMessage(update.Message.Chat.ID, "Submitted!")
 			reply.ReplyToMessageID = appCfg.StudentPresentationsTopicId
 			bot.Send(reply)
 		}
