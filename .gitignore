@@ -127,3 +127,9 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/goland,go,macos,windows
+
+.env.dev
+.env.local
+.env.prod
+
+.vscode

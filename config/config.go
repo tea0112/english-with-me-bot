@@ -6,6 +6,6 @@ type AppConfig struct {
 	AnnouncementsTopicId        int    `env:"ANNOUNCEMENTS_TOPIC_ID"`
 	StudentPresentationsTopicId int    `env:"STUDENT_PRESENTATIONS_TOPIC_ID"`
 	QuestionAndAnswerTopicId    int    `env:"QUESTION_AND_ANSWER_TOPIC_ID"`
-	SpreadSheetId               string `env:"SPREAD_SHEET_ID"`
+	SpreadsheetId               string `env:"SPREADSHEET_ID"`
 	GoogleSheetCredsBase64      string `env:"GOOGLE_SHEET_CREDS_BASE64"`
 }
