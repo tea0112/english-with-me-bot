@@ -23,23 +23,24 @@ func InitApp() {
 	envFile := utils.LoadAdaptiveEnvFile()
 	err := godotenv.Load(envFile)
 	if err != nil {
-		log.Fatalf("Error loading %s file: %v", envFile, err)
+		log.Printf("Error loading %s file: %v", envFile, err)
 	}
 	fmt.Printf("Loaded environment from %s\n", envFile)
 
 	// setup config
 	var appCfg config.AppConfig
 	if err := env.Parse(&appCfg); err != nil {
-		log.Fatal(err)
+		log.Printf("Error parsing environment variables: %v", err)
 	}
 
 	// start dependency injections
 	sheetSvc := sheet.NewSheetConn(&appCfg)
-	sheetRepo := repositories.NewSheetRepoImpl(sheetSvc, appCfg.SpreadsheetId, appCfg.AnnouncementSheetName, appCfg.SubmitSheetName)
+	sheetRepo := repositories.NewSheetRepoImpl(sheetSvc, appCfg.SpreadsheetId, appCfg.AnnouncementSheetName, appCfg.SubmitSheetName, appCfg.ContactMemberSheetName)
 	announcementSvc := services.NewAnnouncementSvcImpl(sheetRepo)
 	topicSvc := services.NewTopicSvcImpl(sheetRepo)
+	memberSvc := services.NewMemberSvcImpl(sheetRepo)
 	// end dependency injections
 
-	tgBot := tgbot.NewTGBot(&appCfg, topicSvc, announcementSvc)
+	tgBot := tgbot.NewTGBot(&appCfg, topicSvc, announcementSvc, memberSvc)
 	tgBot.Run()
 }

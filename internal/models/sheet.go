@@ -35,3 +35,9 @@ func (a SubmitSheet) ToSheetValue() []any {
 		a.SubmitContent,
 	}
 }
+
+type GroupMemberInfo struct {
+	GroupUserId int64
+	Username    string
+	Fullname    string
+}

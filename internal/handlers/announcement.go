@@ -14,8 +14,8 @@ func (h *IncomingUpdateHandler) handleAnnouncement(ctx context.Context, incoming
 	}
 
 	// Respond to the message
-	reply := tgbotapi.NewMessage(incomingUpdate.Message.Chat.ID, "Submitted!")
-	reply.ReplyToMessageID = h.appCfg.StudentPresentationsTopicId
+	reply := tgbotapi.NewMessage(incomingUpdate.Message.Chat.ID, "Saved Topic!")
+	reply.ReplyToMessageID = h.appCfg.AnnouncementsTopicId
 	_, err = h.bot.Send(reply)
 	if err != nil {
 		log.Printf("[ERROR] bot send error: %v", err)

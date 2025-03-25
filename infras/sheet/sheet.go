@@ -15,18 +15,18 @@ func NewSheetConn(appCfg *config.AppConfig) *sheets.Service {
 	// load google sheets api credentials
 	credBytes, err := base64.StdEncoding.DecodeString(appCfg.GoogleSheetCredsBase64)
 	if err != nil {
-		log.Fatalf("Failed to decode credentials: %v", err)
+		log.Printf("Failed to decode credentials: %v", err)
 	}
 	// authen google
 	config, err := google.JWTConfigFromJSON(credBytes, "https://www.googleapis.com/auth/spreadsheets")
 	if err != nil {
-		log.Fatalf("Failed to create JWT config: %v", err)
+		log.Printf("Failed to create JWT config: %v", err)
 	}
 	// init sheets service
 	client := config.Client(context.Background())
 	srv, err := sheets.NewService(context.Background(), option.WithHTTPClient(client))
 	if err != nil {
-		log.Fatalf("Failed to create Sheets service: %v", err)
+		log.Printf("Failed to create Sheets service: %v", err)
 	}
 
 	return srv
