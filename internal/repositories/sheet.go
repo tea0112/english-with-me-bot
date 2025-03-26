@@ -78,6 +78,18 @@ func (r *SheetRepoImpl) SaveMessageToSubmitSheet(ctx context.Context, tgBotAPIMe
 	fullname := fmt.Sprintf("%s %s", tgBotAPIMessage.From.FirstName, tgBotAPIMessage.From.LastName)
 	text := tgBotAPIMessage.Text
 
+	if tgBotAPIMessage.Photo != nil {
+		for _, photo := range tgBotAPIMessage.Photo {
+			photoText := fmt.Sprintf("Photo ID: %s, Width: %d, Height: %d\n", photo.FileID, photo.Width, photo.Height)
+			text += photoText
+		}
+	}
+
+	if tgBotAPIMessage.Video != nil {
+		videoText := fmt.Sprintf("Video ID: %s, Width: %d, Height: %d, Duration: %d\n", tgBotAPIMessage.Video.FileID, tgBotAPIMessage.Video.Width, tgBotAPIMessage.Video.Height, tgBotAPIMessage.Video.Duration)
+		text += videoText
+	}
+
 	submitSheet := models.SubmitSheet{
 		Day:           submitDay,
 		Time:          submitTime,

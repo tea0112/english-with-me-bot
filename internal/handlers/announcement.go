@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/cesc1802/english-with-me-bot/pkg/statics"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
@@ -14,7 +15,7 @@ func (h *IncomingUpdateHandler) handleAnnouncement(ctx context.Context, incoming
 	}
 
 	// Respond to the message
-	reply := tgbotapi.NewMessage(incomingUpdate.Message.Chat.ID, "Saved Topic!")
+	reply := tgbotapi.NewMessage(incomingUpdate.Message.Chat.ID, statics.GetRandomMotivationalSentence(statics.MotivationalSentences))
 	reply.ReplyToMessageID = h.appCfg.AnnouncementsTopicId
 	_, err = h.bot.Send(reply)
 	if err != nil {
