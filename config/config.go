@@ -11,4 +11,5 @@ type AppConfig struct {
 	ServiceEnv                  string `env:"SERVICE_ENV"`
 	AnnouncementSheetName       string `env:"ANNOUNCEMENT_SHEET_NAME"`
 	SubmitSheetName             string `env:"SUBMIT_SHEET_NAME"`
+	ContactMemberSheetName      string `env:"CONTACT_MEMBER_SHEET_NAME"`
 }

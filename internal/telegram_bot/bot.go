@@ -15,17 +15,20 @@ type TGBot struct {
 	appCfg          *config.AppConfig
 	topicSvc        *services.TopicSvcImpl
 	announcementSvc *services.AnnouncementSvcImpl
+	memberSvc       *services.MemberSvcImpl
 }
 
 func NewTGBot(
 	appCfg *config.AppConfig,
 	topicSvc *services.TopicSvcImpl,
 	announcementSvc *services.AnnouncementSvcImpl,
+	memberSvc *services.MemberSvcImpl,
 ) *TGBot {
 	return &TGBot{
 		appCfg:          appCfg,
 		topicSvc:        topicSvc,
 		announcementSvc: announcementSvc,
+		memberSvc:       memberSvc,
 	}
 }
 
@@ -50,6 +53,6 @@ func (b *TGBot) Run() {
 
 	// handle incoming
 	incomingUpdates := bot.GetUpdatesChan(u)
-	handler := handlers.NewIncomingUpdateHandler(b.appCfg, bot, incomingUpdates, b.topicSvc, b.announcementSvc)
+	handler := handlers.NewIncomingUpdateHandler(b.appCfg, bot, incomingUpdates, b.topicSvc, b.announcementSvc, b.memberSvc)
 	handler.HandleIncomingUpdates(ctx)
 }
