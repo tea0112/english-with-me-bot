@@ -56,7 +56,7 @@ func (h *IncomingUpdateHandler) HandleIncomingUpdates(ctx context.Context) {
 		}
 
 		// handle topic
-		if incomingUpdate.Message != nil && strings.Contains(incomingUpdate.Message.Text, "#submit") {
+		if incomingUpdate.Message != nil && (strings.Contains(incomingUpdate.Message.Text, "#submit") || strings.Contains(incomingUpdate.Message.Caption, "#submit")) {
 			h.handleTopic(ctx, incomingUpdate)
 			continue
 		}
