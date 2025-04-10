@@ -5,5 +5,7 @@
   ],
   "timezone": "Asia/Ho_Chi_Minh",
   "description": "Schedule every one minute",
-  "schedule": ["* * * * *"]
+  "schedule": ["* * * * *"],
+  "prCreation": "immediate",
+  "automerge": false
 }
